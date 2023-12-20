@@ -1,0 +1,6 @@
+@MLApi_HostAddress = http://localhost:7069
+
+PUT {{MLApi_HostAddress}}/MachineLearning/
+Accept: */*
+
+###
