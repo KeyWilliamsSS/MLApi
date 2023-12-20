@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.Extensions.ML;
 using Microsoft.ML;
 using MLApi.MLSetting;
 using MLApi.Models;
@@ -10,33 +11,28 @@ namespace MLApi.Controllers
     [Route("[controller]")]
     public class MachineLearningController(ILogger<MachineLearningController> _logger) : ControllerBase
     {
-        //private readonly ILogger<MachineLearningController> _logger;
-
-        //public MachineLearningController(ILogger<MachineLearningController> logger)
-        //{
-        //    _logger = logger;
-        //}
-
-        //[HttpGet(Name = "GetWeatherForecast")]
-        //public IEnumerable<WeatherForecast> Get()
-        //{
-        //    return Enumerable.Range(1, 5).Select(index => new WeatherForecast
-        //    {
-        //        Date = DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-        //        TemperatureC = Random.Shared.Next(-20, 55),
-        //        Summary = Summaries[Random.Shared.Next(Summaries.Length)]
-        //    })
-        //    .ToArray();
-        //}
-
         [HttpPut(Name = "UpdateContext")]
-        public ActionResult UpdateContext()
+        public async Task<ActionResult> UpdateContext()
         {
             _logger.LogInformation("UpdateContext called");
 
             HousePriceTraining.Train(@"C:\Users\M89501426\source\repos\MLApi\MLApi\MLSetting\HousePrice.mlnet");
 
-            return NoContent();
+            return await Task.FromResult(NoContent());
         }
+
+        //[HttpPost(Name = "Predict")]
+        //public async Task<ActionResult> Predict(ModelInput input)
+        //{
+        //    _logger.LogInformation("Predict called");
+
+        //    var predictionHandler = async (PredictionEnginePool<ModelInput, ModelOutput> predictionEnginePool, ModelInput input) => await Task.FromResult(predictionEnginePool.Predict(input));
+
+        //    //predictionHandler();
+
+        //    this.Predict(input);
+
+        //    return NoContent();
+        //}
     }
 }

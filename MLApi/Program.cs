@@ -1,4 +1,6 @@
 using Microsoft.OpenApi.Models;
+using Microsoft.Extensions.ML;
+using MLApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,6 +13,8 @@ builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new OpenApiInfo { Title = "Machine Learning API", Description = "Docs for my API", Version = "v1" });
 });
+
+builder.Services.AddPredictionEnginePool<ModelInput, ModelOutput>().FromFile(Path.GetFullPath("MLSetting\\HousePrice.mlnet"));
 
 var app = builder.Build();
 
